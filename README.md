@@ -1,8 +1,20 @@
-## ![](visuals/logos/OLMoE_4.png)
+## <img src="visuals/logos/OLMoE_4.png" width="200" />
 
-This repository provides an overview of all resources for the paper "OLMoE: ...".
 
 ![](visuals/overview.jpg)
+
+This repository provides an overview of all resources for the paper ["OLMoE: ..."](https://arxiv.org/abs/TODO).
+
+- [Artifacts](#artifacts)
+- [Inference](#inference)
+- [Pretraining](#pretraining)
+- [Adaptation](#adaptation)
+- [Evaluation](#evaluation)
+    - [During pretraining](#during-pretraining)
+    - [After pretraining](#after-pretraining)
+    - [After adaptation](#after-adaptation)
+- [Visuals](#visuals)
+- [Citation](#citation)
 
 ### Artifacts
 
