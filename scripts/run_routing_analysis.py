@@ -9,7 +9,7 @@ from tqdm import tqdm
 from pathlib import Path
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-token = "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"
+token = "YOUR_TOKEN"
 final_revision = "step1223842-tokens5100B"
 
 start_time = time.time()
