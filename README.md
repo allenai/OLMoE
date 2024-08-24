@@ -3,7 +3,7 @@
 
 ![](visuals/overview.jpg)
 
-This repository provides an overview of all resources for the paper ["OLMoE: ..."](https://arxiv.org/abs/TODO).
+This repository provides an overview of all resources for the paper ["OLMoE: Open Mixture-of-Experts Language Models"](https://arxiv.org/abs/TODO).
 
 - [Artifacts](#artifacts)
 - [Inference](#inference)
@@ -19,13 +19,16 @@ This repository provides an overview of all resources for the paper ["OLMoE: ...
 ### Artifacts
 
 - Pretraining checkpoints: https://hf.co/OLMoE/OLMoE-1B-7B-0824
-- Pretraining data: https://hf.co/OLMoE/Dolma-OLMoE
-- Pretraining logs: https://hf.co/OLMoE/Dolma-OLMoE
 - Pretraining code: https://github.com/allenai/OLMo/tree/Muennighoff/MoE
-- Finetuning checkpoints: https://hf.co/OLMoE/OLMoE-1B-7B-0824-IT
-- Finetuning data: https://hf.co/OLMoE/Tulu-OLMoE
-- Finetuning code: https://github.com/allenai/open-instruct/tree/olmoe-sft
-- Finetuning logs:
+- Pretraining data: https://hf.co/datasets/allenai/olmoe-mix-0824
+- Pretraining logs: https://hf.co/OLMoE/Dolma-OLMoE
+- SFT/DPO code: https://github.com/allenai/open-instruct/tree/olmoe-sft
+- SFT checkpoints: https://hf.co/OLMoE/OLMoE-1B-7B-0824-IT
+- SFT data: https://hf.co/datasets/allenai/tulu-v3.1-mix-preview-4096-OLMoE
+- SFT logs: `logs/olmoe-sft-logs.txt`
+- DPO checkpoints: https://hf.co/OLMoE/OLMoE-1B-7B-0824-Instruct
+- DPO data: https://hf.co/datasets/allenai/ultrafeedback_binarized_cleaned
+- DPO logs: `logs/olmoe-dpo-logs.txt`
 
 ### Inference
 
@@ -59,8 +62,19 @@ branches = [b.name for b in out.branches]
 1. Clone this [OLMo branch](https://github.com/allenai/OLMo/tree/Muennighoff/MoE) & create an environment with its dependencies via `cd OLMo; pip install -e .`. If you want to use new features in OLMo clone from the `main` branch instead.
 2. Run `pip install git+https://github.com/Muennighoff/megablocks.git@olmoe`
 3. Setup a config file. `configs/OLMoE-1B-7B-0824.yml` was used for the pretraining of `OLMoE-1B-7B-0824`. You can find configs from various ablations in `configs/ablations`.
-4. Download the data from TODO & adapt the paths in your config file as needed
-5. Submit your job. We used `bash scripts/olmoe-gantry.sh` which invokes https://github.com/allenai/OLMo/blob/Muennighoff/MoE/scripts/train.py and uses [beaker gantry](https://github.com/allenai/beaker-gantry) but you will likely need to change the script to work with your setup.
+4. Download the data from https://hf.co/datasets/allenai/olmoe-mix-0824, tokenize it ia the command below and adapt the `paths` in your training config to point to it.
+```bash
+dolma tokens \
+--documents ${PATH_TO_DOWNLOADED_DATA} \
+--destination ${PATH_WHERE_TO_SAVE_TOKENIZED_DATA} \
+--tokenizer.name_or_path 'allenai/gpt-neox-olmo-dolma-v1_5' \
+--max_size '2_147_483_648' \
+--seed 0 \
+--tokenizer.eos_token_id 50279 \
+--tokenizer.pad_token_id 1 \
+--processes ${NUMBER_OF_CPU_CORES_TO_USE}
+```
+6. Submit your job. We used `bash scripts/olmoe-gantry.sh` which invokes https://github.com/allenai/OLMo/blob/Muennighoff/MoE/scripts/train.py and uses [beaker gantry](https://github.com/allenai/beaker-gantry) but you will likely need to change the script to work with your setup.
 
 ### Adaptation
 
