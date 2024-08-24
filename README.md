@@ -41,6 +41,7 @@ import torch
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 # Load different ckpts via passing e.g. `revision=step10000-tokens41B`
+# also check OLMoE/OLMoE-1B-7B-0824-SFT & OLMoE/OLMoE-1B-7B-0824-Instruct
 model = OlmoeForCausalLM.from_pretrained("OLMoE/OLMoE-1B-7B-0824").to(DEVICE)
 tokenizer = AutoTokenizer.from_pretrained("OLMoE/OLMoE-1B-7B-0824")
 inputs = tokenizer("Bitcoin is", return_tensors="pt")
@@ -100,9 +101,11 @@ Follow the instructions at https://github.com/allenai/open-instruct/tree/olmoe-s
 
 ### Visuals
 
-The code for all plots is at `scripts/plots.ipynb` equivalent to [this colab](https://colab.research.google.com/drive/15PTwmoxcbrwWKG6ErY44hlJlLLKAj7Hx?usp=sharing).
-
-For Figure 1, we import the plot from the colab into this drawing to edit it further: https://docs.google.com/drawings/d/1rnOnSOwrzAV7xv8lzKMJ7VPF1W-_t6_6EBD_06j66yQ/edit?usp=sharing
+- Figure 1, During training evaluation, Pretraining ablations: `scripts/plots.ipynb` equivalent to [this colab](https://colab.research.google.com/drive/15PTwmoxcbrwWKG6ErY44hlJlLLKAj7Hx?usp=sharing).
+    - For Figure 1, we import the plot from the colab into this drawing to edit it further: https://docs.google.com/drawings/d/1rnOnSOwrzAV7xv8lzKMJ7VPF1W-_t6_6EBD_06j66yQ/edit?usp=sharing
+- Analysis: Router saturation, Expert co-activation, Token specialization: `scripts/run_moe_analysis.py`
+- Analysis: Domain specialization: `scripts/run_routing_analysis.py` & `scripts/plot_routing_analysis.ipynb`
+- DCLM table: `scripts/make_table.py`
 
 ### Citation
 
