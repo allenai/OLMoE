@@ -9,36 +9,61 @@ from tqdm import tqdm
 from pathlib import Path
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-token = "YOUR_TOKEN"
-final_revision = "step1223842-tokens5100B"
+token = None
 
 start_time = time.time()
 
 def load_analysis_data(tokenizer, domain, bs):
     np.random.seed(2024)
     tokens = []
-    data_path = f"routing_output/text/{domain}_texts.txt"
 
-    with open(data_path) as f:
-        text = f.read()
-        tokens = tokenizer(text, truncation=False)["input_ids"]
-        while len(tokens) >= bs:
-            yield tokens[:bs]
-            tokens = tokens[bs:]
+    if domain == "tulu":
+        data_path = f"routing_output/text/tulu-v3.1.jsonl"
+        with open(data_path) as f:
+            for line in f:
+                text = json.loads(line)["text"]
+                tokens = tokenizer(text, truncation=False)["input_ids"]
+                while len(tokens) >= bs:
+                    yield tokens[:bs]
+                    tokens = tokens[bs:]
+                yield tokens
+    else:
+        data_path = f"routing_output/text/{domain}_texts.txt"
+        with open(data_path) as f:
+            text = f.read()
+            tokens = tokenizer(text, truncation=False)["input_ids"]
+            while len(tokens) >= bs:
+                yield tokens[:bs]
+                tokens = tokens[bs:]
 
-
-def load_model(revision=final_revision):
+def load_sft_model():
     DEVICE = "cuda"
-    model = OlmoeForCausalLM.from_pretrained("OLMoE/OLMoE-1B-7B-0824").to(DEVICE)
+    model = OlmoeForCausalLM.from_pretrained("allenai/OLMoE-1B-7B-0824-SFT", revision="no-load-balancing", token=token).to(DEVICE)
     model.eval()
-    tokenizer = AutoTokenizer.from_pretrained("OLMoE/OLMoE-1B-7B-0824")
+    tokenizer = AutoTokenizer.from_pretrained("allenai/OLMoE-1B-7B-0824-SFT", revision="no-load-balancing", token=token)
+    return model, tokenizer
+
+
+def load_dpo_model():
+    DEVICE = "cuda"
+    model = OlmoeForCausalLM.from_pretrained("allenai/OLMoE-1B-7B-0824-Instruct", revision="no-load-balancing", token=token).to(DEVICE)
+    model.eval()
+    tokenizer = AutoTokenizer.from_pretrained("allenai/OLMoE-1B-7B-0824-Instruct", revision="no-load-balancing", token=token)
+    return model, tokenizer
+
+
+def load_model():
+    DEVICE = "cuda"
+    model = OlmoeForCausalLM.from_pretrained("OLMoE/OLMoE-1B-7B-0824", token=token).to(DEVICE)
+    model.eval()
+    tokenizer = AutoTokenizer.from_pretrained("OLMoE/OLMoE-1B-7B-0824", token=token)
     return model, tokenizer
 
 def load_model_mistral():
     model_id = "mistralai/Mixtral-8x7B-v0.1"
-    model = AutoModelForCausalLM.from_pretrained(model_id, device_map='auto')
+    model = AutoModelForCausalLM.from_pretrained(model_id, device_map='auto', token=token)
     model.eval()
-    tokenizer = AutoTokenizer.from_pretrained(model_id)
+    tokenizer = AutoTokenizer.from_pretrained(model_id, token=token)
     return model, tokenizer
 
 
@@ -56,6 +81,8 @@ def run_analysis(domain, model_name=None):
     eid2token_layer7 = defaultdict(Counter)
     eid2token_layer15 = defaultdict(Counter)
 
+    total_token_count = 0
+
     # for each expert, what are some commen tokens that are assigned to it?
     # write a code to count that and print it out: {expert_id: Counter({token1: 32, token2: 23})...}
     for i, input_ids in tqdm(enumerate(load_analysis_data(tokenizer, domain=domain, bs=length))):
@@ -64,13 +91,14 @@ def run_analysis(domain, model_name=None):
 
         # input id shapes: 2048 seqlen
         input_ids = input_ids[0].detach().cpu().numpy().tolist()
-        logits = out["logits"][0].detach().cpu().numpy()
+        total_token_count += len(input_ids)
+
         # 16 layer, (2048 tokens, 64 experts)
         router_logits = [l.detach().cpu().numpy() for l in out["router_logits"]]
         # 2048 tokens, 8 experts, 16 layers
         if model_name == "mistral":
             exp_ids = np.stack([np.argsort(-logits, -1)[:, :2].tolist() for logits in router_logits], -1)
-        elif model_name == "olmoe":
+        elif model_name.startswith("olmoe"):
             exp_ids = np.stack([np.argsort(-logits, -1)[:, :8].tolist() for logits in router_logits], -1)
         # 2048 tokens, 8 experts
         exp_ids_layer0 = exp_ids[:, :, 0]
@@ -95,24 +123,27 @@ def run_analysis(domain, model_name=None):
                 exps_counts = Counter(zip(exp_ids[:, :, layer_i].flatten(), exp_ids[:, :, layer_j].flatten()))
                 crosslayer_counters[(layer_i, layer_j)].update(exps_counts)
 
-        if i > 100:
+        if total_token_count > 204800:
             break
 
     return layer_counters, crosslayer_counters, eid2token_layer0, eid2token_layer7, eid2token_layer15
 
-name2finaldata = {"github_oss_with_stack": "github", "arxiv": "arxiv", "c4": "c4", "b3g": "book", "wikipedia": "wikipedia"}
+name2finaldata = {"github_oss_with_stack": "github", "arxiv": "arxiv", "c4": "c4", "b3g": "book", "wikipedia": "wikipedia", "tulu": "tulu"}
 
 if __name__=='__main__':
-    model_name = "olmoe"
+    model_name = "olmoe-dpo"
     print(model_name)
     if model_name == "mistral":
         model, tokenizer = load_model_mistral()
+    elif model_name == "olmoe-sft":
+        model, tokenizer = load_sft_model()
+    elif model_name == "olmoe-dpo":
+        model, tokenizer = load_dpo_model()
     elif model_name == "olmoe":
-        model, tokenizer = load_model(revision=final_revision)
+        model, tokenizer = load_model()
 
     length = 2048
-    # save the expert counts for each domain into a json file
-    for domain in tqdm(["github_oss_with_stack", "arxiv", "c4", "b3g", "wikipedia"]):
+    for domain in tqdm(["tulu", "github_oss_with_stack", "arxiv", "c4", "b3g", "wikipedia"]):
         print(f"Domain: {domain}")
         layer_counters, crosslayer_counters, eid2token_layer0, eid2token_layer7, eid2token_layer15 = run_analysis(domain, model_name)
         Path(f"routing_output/{model_name}/expert_counts").mkdir(parents=True, exist_ok=True)
