@@ -13,7 +13,7 @@ tensors = {}
 swiglu = True
 noise = False
 share = False
-interleave = True
+interleave = False
 n_experts = 8
 D = 2048
 
