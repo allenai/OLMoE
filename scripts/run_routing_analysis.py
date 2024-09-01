@@ -38,25 +38,25 @@ def load_analysis_data(tokenizer, domain, bs):
 
 def load_sft_model():
     DEVICE = "cuda"
-    model = OlmoeForCausalLM.from_pretrained("allenai/OLMoE-1B-7B-0824-SFT", revision="no-load-balancing", token=token).to(DEVICE)
+    model = OlmoeForCausalLM.from_pretrained("allenai/OLMoE-1B-7B-0924-SFT", revision="no-load-balancing", token=token).to(DEVICE)
     model.eval()
-    tokenizer = AutoTokenizer.from_pretrained("allenai/OLMoE-1B-7B-0824-SFT", revision="no-load-balancing", token=token)
+    tokenizer = AutoTokenizer.from_pretrained("allenai/OLMoE-1B-7B-0924-SFT", revision="no-load-balancing", token=token)
     return model, tokenizer
 
 
 def load_dpo_model():
     DEVICE = "cuda"
-    model = OlmoeForCausalLM.from_pretrained("allenai/OLMoE-1B-7B-0824-Instruct", revision="no-load-balancing", token=token).to(DEVICE)
+    model = OlmoeForCausalLM.from_pretrained("allenai/OLMoE-1B-7B-0924-Instruct", revision="no-load-balancing", token=token).to(DEVICE)
     model.eval()
-    tokenizer = AutoTokenizer.from_pretrained("allenai/OLMoE-1B-7B-0824-Instruct", revision="no-load-balancing", token=token)
+    tokenizer = AutoTokenizer.from_pretrained("allenai/OLMoE-1B-7B-0924-Instruct", revision="no-load-balancing", token=token)
     return model, tokenizer
 
 
 def load_model():
     DEVICE = "cuda"
-    model = OlmoeForCausalLM.from_pretrained("OLMoE/OLMoE-1B-7B-0824", token=token).to(DEVICE)
+    model = OlmoeForCausalLM.from_pretrained("OLMoE/OLMoE-1B-7B-0924", token=token).to(DEVICE)
     model.eval()
-    tokenizer = AutoTokenizer.from_pretrained("OLMoE/OLMoE-1B-7B-0824", token=token)
+    tokenizer = AutoTokenizer.from_pretrained("OLMoE/OLMoE-1B-7B-0924", token=token)
     return model, tokenizer
 
 def load_model_mistral():

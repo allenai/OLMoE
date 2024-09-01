@@ -17,15 +17,15 @@ This repository provides an overview of all resources for the paper ["OLMoE: Ope
 
 ### Artifacts
 
-- Pretraining checkpoints: https://hf.co/allenai/OLMoE-1B-7B-0824
+- Pretraining checkpoints: https://hf.co/allenai/OLMoE-1B-7B-0924
 - Pretraining code: https://github.com/allenai/OLMo/tree/Muennighoff/MoE
-- Pretraining data: https://hf.co/datasets/allenai/olmoe-mix-0824
+- Pretraining data: https://hf.co/datasets/allenai/olmoe-mix-0924
 - Pretraining logs: https://hf.co/OLMoE/Dolma-OLMoE
 - SFT/DPO code: https://github.com/allenai/open-instruct/tree/olmoe-sft
-- SFT checkpoints: https://hf.co/OLMoE/OLMoE-1B-7B-0824-IT
+- SFT checkpoints: https://hf.co/OLMoE/OLMoE-1B-7B-0924-IT
 - SFT data: https://hf.co/datasets/allenai/tulu-v3.1-mix-preview-4096-OLMoE
 - SFT logs: `logs/olmoe-sft-logs.txt`
-- DPO checkpoints: https://hf.co/OLMoE/OLMoE-1B-7B-0824-Instruct
+- DPO checkpoints: https://hf.co/OLMoE/OLMoE-1B-7B-0924-Instruct
 - DPO data: https://hf.co/datasets/allenai/ultrafeedback_binarized_cleaned
 - DPO logs: `logs/olmoe-dpo-logs.txt`
 
@@ -40,9 +40,9 @@ import torch
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 # Load different ckpts via passing e.g. `revision=step10000-tokens41B`
-# also check allenai/OLMoE-1B-7B-0824-SFT & allenai/OLMoE-1B-7B-0824-Instruct
-model = OlmoeForCausalLM.from_pretrained("allenai/OLMoE-1B-7B-0824").to(DEVICE)
-tokenizer = AutoTokenizer.from_pretrained("allenai/OLMoE-1B-7B-0824")
+# also check allenai/OLMoE-1B-7B-0924-SFT & allenai/OLMoE-1B-7B-0924-Instruct
+model = OlmoeForCausalLM.from_pretrained("allenai/OLMoE-1B-7B-0924").to(DEVICE)
+tokenizer = AutoTokenizer.from_pretrained("allenai/OLMoE-1B-7B-0924")
 inputs = tokenizer("Bitcoin is", return_tensors="pt")
 inputs = {k: v.to(DEVICE) for k, v in inputs.items()}
 out = model.generate(**inputs, max_length=64)
@@ -53,7 +53,7 @@ print(tokenizer.decode(out[0]))
 You can list all revisions/branches by installing `huggingface-hub` & running:
 ```python
 from huggingface_hub import list_repo_refs
-out = list_repo_refs("allenai/OLMoE-1B-7B-0824")
+out = list_repo_refs("allenai/OLMoE-1B-7B-0924")
 branches = [b.name for b in out.branches]
 ```
 
@@ -61,8 +61,8 @@ branches = [b.name for b in out.branches]
 
 1. Clone this [OLMo branch](https://github.com/allenai/OLMo/tree/Muennighoff/MoE) & create an environment with its dependencies via `cd OLMo; pip install -e .`. If you want to use new features in OLMo clone from the `main` branch instead.
 2. Run `pip install git+https://github.com/Muennighoff/megablocks.git@olmoe`
-3. Setup a config file. `configs/OLMoE-1B-7B-0824.yml` was used for the pretraining of `OLMoE-1B-7B-0824`. You can find configs from various ablations in `configs/ablations`.
-4. Download the data from https://hf.co/datasets/allenai/OLMoE-mix-0824, tokenize it via the command below and adapt the `paths` in your training config to point to it.
+3. Setup a config file. `configs/OLMoE-1B-7B-0924.yml` was used for the pretraining of `OLMoE-1B-7B-0924`. You can find configs from various ablations in `configs/ablations`.
+4. Download the data from https://hf.co/datasets/allenai/OLMoE-mix-0924, tokenize it via the command below and adapt the `paths` in your training config to point to it.
 ```bash
 dolma tokens \
 --documents ${PATH_TO_DOWNLOADED_DATA} \
@@ -81,7 +81,7 @@ dolma tokens \
 1. Clone this [open-instruct branch](https://github.com/allenai/open-instruct/tree/olmoe-sft) & follow its setup instructions. If you want to use new features in open-instruct clone from the `main` branch instead.
 2. SFT: Run `scripts/TODO-SFT-SCRIPT`.
 3. DPO: Run `scripts/TODO-DPO-SCRIPT`.
-4. KTO: Install `trl` and run https://github.com/Muennighoff/kto/blob/master/kto.py via `WANDB_PROJECT=olmoe accelerate launch --config_file=config_8gpusdsz2_m7.yml kto.py --model_name_or_path allenai/OLMoE-1B-7B-0824-SFT --output_dir OLMoE-1B-7B-0824-SFT-KTO-3EP --report_to "wandb" --per_device_train_batch_size 4 --gradient_accumulation_steps 1 --optim rmsprop --learning_rate 5e-07 --beta 0.1 --logging_steps 1 --bf16 --sanity_check False --num_train_epochs 3` (if you want to run the Adam optimizer change to `--optim adamw_torch`). We used `trl==0.9.6`.
+4. KTO: Install `trl` and run https://github.com/Muennighoff/kto/blob/master/kto.py via `WANDB_PROJECT=olmoe accelerate launch --config_file=config_8gpusdsz2_m7.yml kto.py --model_name_or_path allenai/OLMoE-1B-7B-0924-SFT --output_dir OLMoE-1B-7B-0924-SFT-KTO-3EP --report_to "wandb" --per_device_train_batch_size 4 --gradient_accumulation_steps 1 --optim rmsprop --learning_rate 5e-07 --beta 0.1 --logging_steps 1 --bf16 --sanity_check False --num_train_epochs 3` (if you want to run the Adam optimizer change to `--optim adamw_torch`). We used `trl==0.9.6`.
 
 ### Evaluation
 

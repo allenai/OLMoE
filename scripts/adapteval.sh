@@ -9,7 +9,7 @@
 #SBATCH --exclusive
 #SBATCH --array=0-6%7                # adjusted array size and concurrency
 
-MODEL_PATH=allenai/OLMoE-1B-7B-0824-Instruct
+MODEL_PATH=allenai/OLMoE-1B-7B-0924-Instruct
 TOKENIZER_PATH=$MODEL_PATH
 
 cd ~/open-instruct

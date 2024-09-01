@@ -25,7 +25,7 @@ def tokenize_c4(tokenized_path, sample_ratio=0.005, model="olmoe"):
     np.random.seed(2024)
     with open(tokenized_path, "w") as f:
         if model == "olmoe":
-            tokenizer = AutoTokenizer.from_pretrained("allenai/OLMoE-1B-7B-0824", token=token)
+            tokenizer = AutoTokenizer.from_pretrained("allenai/OLMoE-1B-7B-0924", token=token)
         elif model == "mixtral":
             tokenizer = AutoTokenizer.from_pretrained("mistralai/Mixtral-8x7B-v0.1", token=token)
         else: raise NotImplementedError(f"model={model}")
@@ -48,7 +48,7 @@ def load_c4(tokenized_path, bs):
 
 def load_model(revision="main", model="olmoe"):
     if model == "olmoe":
-        model = OlmoeForCausalLM.from_pretrained("allenai/OLMoE-1B-7B-0824", token=token, revision=revision).to(DEVICE)
+        model = OlmoeForCausalLM.from_pretrained("allenai/OLMoE-1B-7B-0924", token=token, revision=revision).to(DEVICE)
     elif model == "mixtral":
         model = AutoModelForCausalLM.from_pretrained(
             "mistralai/Mixtral-8x7B-v0.1", token=token, revision=revision, device_map="auto"
@@ -60,7 +60,7 @@ def do_inference(args, run_all_checkpoints=False):
     run(args, "main")
 
     if run_all_checkpoints:
-        out = list_repo_refs("allenai/OLMoE-1B-7B-0824", token=token)
+        out = list_repo_refs("allenai/OLMoE-1B-7B-0924", token=token)
         cand_branches = [b.name for b in out.branches]
         all_branches = []
         # Old checkpoints previously used: ["15000", "130000", "250000", "490000"]:
@@ -333,7 +333,7 @@ def do_token_analysis(args, tex_format=True):
                 print("Failed to load line", e)
                 break
     assert args.model == "olmoe"
-    tokenizer = AutoTokenizer.from_pretrained("allenai/OLMoE-1B-7B-0824", token=token)
+    tokenizer = AutoTokenizer.from_pretrained("allenai/OLMoE-1B-7B-0924", token=token)
 
     input_id_to_exp = defaultdict(list)
     gt_next_token_to_exp = defaultdict(list)
@@ -408,7 +408,7 @@ def do_token_analysis_layers(args, tex_format=True):
         results = []
         for line in f:
             results.append(json.loads(line))
-    tokenizer = AutoTokenizer.from_pretrained("allenai/OLMoE-1B-7B-0824", token=token)
+    tokenizer = AutoTokenizer.from_pretrained("allenai/OLMoE-1B-7B-0924", token=token)
 
     def print_avg(id_to_exp):
         probs = []
@@ -474,7 +474,7 @@ def do_token_analysis_experts(args, tex_format=True, do_sort=False):
         results = []
         for line in f:
             results.append(json.loads(line))
-    tokenizer = AutoTokenizer.from_pretrained("allenai/OLMoE-1B-7B-0824", token=token)
+    tokenizer = AutoTokenizer.from_pretrained("allenai/OLMoE-1B-7B-0924", token=token)
 
     def print_avg(id_to_exp):
         probs = []
@@ -562,7 +562,7 @@ def do_token_analysis_layers_experts(args, do_sort=False, normalize=False):
 
     import matplotlib.pylab as plt
     if args.model == "olmoe":
-        tokenizer = AutoTokenizer.from_pretrained("allenai/OLMoE-1B-7B-0824", token=token)
+        tokenizer = AutoTokenizer.from_pretrained("allenai/OLMoE-1B-7B-0924", token=token)
         random_prob = args.topk/64
         num_layers = 16
         # fig, axes = plt.subplots(figsize=(32, 8), ncols=2, nrows=1, sharey=True, layout='constrained', width_ratios=[1, 2])
