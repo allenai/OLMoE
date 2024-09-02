@@ -41,7 +41,7 @@ case $SLURM_ARRAY_TASK_ID in
       --eval_batch_size 64
     ;;
   2)
-    OPENAI_API_KEY=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 IS_ALPACA_EVAL_2=False python -m eval.alpaca_farm.run_eval \
+    OPENAI_API_KEY=YOUR_KEY IS_ALPACA_EVAL_2=False python -m eval.alpaca_farm.run_eval \
       --model_name_or_path ${MODEL_PATH} \
       --tokenizer_name_or_path ${TOKENIZER_PATH} \
       --save_dir ${MODEL_PATH}/eval/alpaca \
@@ -61,7 +61,7 @@ case $SLURM_ARRAY_TASK_ID in
       --eval_batch_size 64
     ;;
   4)
-    OPENAI_API_KEY=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 python -m eval.xstest.run_eval \
+    OPENAI_API_KEY=YOUR_KEY python -m eval.xstest.run_eval \
       --data_dir /data/niklas/data/eval/xstest/ \
       --save_dir ${MODEL_PATH}/eval/xstest \
       --model_name_or_path ${MODEL_PATH} \
