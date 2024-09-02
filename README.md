@@ -79,9 +79,70 @@ dolma tokens \
 ### Adaptation
 
 1. Clone this [open-instruct branch](https://github.com/allenai/open-instruct/tree/olmoe-sft) & follow its setup instructions. If you want to use new features in open-instruct clone from the `main` branch instead.
-2. SFT: Run `scripts/TODO-SFT-SCRIPT`.
-3. DPO: Run `scripts/TODO-DPO-SCRIPT`.
-4. KTO: Install `trl` and run https://github.com/Muennighoff/kto/blob/master/kto.py via `WANDB_PROJECT=olmoe accelerate launch --config_file=config_8gpusdsz2_m7.yml kto.py --model_name_or_path allenai/OLMoE-1B-7B-0924-SFT --output_dir OLMoE-1B-7B-0924-SFT-KTO-3EP --report_to "wandb" --per_device_train_batch_size 4 --gradient_accumulation_steps 1 --optim rmsprop --learning_rate 5e-07 --beta 0.1 --logging_steps 1 --bf16 --sanity_check False --num_train_epochs 3` (if you want to run the Adam optimizer change to `--optim adamw_torch`). We used `trl==0.9.6`.
+2. SFT: Run
+```
+accelerate launch \
+--mixed_precision bf16 \
+--num_machines 1 \
+--num_processes 8 \
+--use_deepspeed \
+--deepspeed_config_file configs/ds_configs/stage3_no_offloading_accelerate.conf \
+open_instruct/finetune.py \
+--model_name_or_path allenai/OLMoE-1B-7B-0924 \
+--tokenizer_name allenai/OLMoE-1B-7B-0924 \
+--use_slow_tokenizer \
+--use_flash_attn \
+--max_seq_length 4096 \
+--preprocessing_num_workers 128 \
+--per_device_train_batch_size 2 \
+--gradient_accumulation_steps 8 \
+--learning_rate 2e-05 \
+--lr_scheduler_type linear \
+--warmup_ratio 0.03 \
+--weight_decay 0.0 \
+--num_train_epochs 2 \
+--output_dir output/ \
+--with_tracking \
+--report_to wandb \
+--logging_steps 1 \
+--reduce_loss sum \
+--model_revision main \
+--dataset_mixer_list allenai/tulu-v3-mix-preview-4096-OLMoE 1.0 ai2-adapt-dev/daring-anteater-specialized 1.0 \
+--checkpointing_steps epoch \
+--add_bos
+```
+4. DPO: Run
+```
+accelerate launch \
+--mixed_precision bf16 \
+--num_machines 1 \
+--num_processes 8 \
+--use_deepspeed \
+--deepspeed_config_file configs/ds_configs/stage3_no_offloading_accelerate.conf \
+open_instruct/dpo_tune.py \
+--model_name_or_path allenai/OLMoE-1B-7B-0924-SFT \
+--tokenizer_name allenai/OLMoE-1B-7B-0924-SFT \
+--use_flash_attn \
+--gradient_checkpointing \
+--dataset_name argilla/ultrafeedback-binarized-preferences-cleaned \
+--max_seq_length 4096 \
+--preprocessing_num_workers 16 \
+--per_device_train_batch_size 1 \
+--gradient_accumulation_steps 4 \
+--learning_rate 5e-7 \
+--lr_scheduler_type linear \
+--warmup_ratio 0.1 \
+--weight_decay 0. \
+--num_train_epochs 3 \
+--output_dir output/ \
+--report_to tensorboard \
+--logging_steps 1 \
+--reduce_loss sum \
+--add_bos \
+--checkpointing_steps epoch \
+--dpo_beta 0.1
+```
+6. KTO: Install `trl` and run https://github.com/Muennighoff/kto/blob/master/kto.py via `WANDB_PROJECT=olmoe accelerate launch --config_file=config_8gpusdsz2_m7.yml kto.py --model_name_or_path allenai/OLMoE-1B-7B-0924-SFT --output_dir OLMoE-1B-7B-0924-SFT-KTO-3EP --report_to "wandb" --per_device_train_batch_size 4 --gradient_accumulation_steps 1 --optim rmsprop --learning_rate 5e-07 --beta 0.1 --logging_steps 1 --bf16 --sanity_check False --num_train_epochs 3` (if you want to run the Adam optimizer change to `--optim adamw_torch`). We used `trl==0.9.6`.
 
 ### Evaluation
 
