@@ -42,7 +42,7 @@ This repository provides an overview of all resources for the paper ["OLMoE: Ope
 
 ### Inference
 
-Install the `transformers` & `torch` libraries and run:
+Install the `transformers` & `torch` libraries and run (Transformers must be from source for [this PR](https://github.com/huggingface/transformers/pull/32406) or until the next release):
 
 ```python
 from transformers import OlmoeForCausalLM, AutoTokenizer
