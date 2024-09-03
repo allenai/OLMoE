@@ -22,17 +22,22 @@ This repository provides an overview of all resources for the paper ["OLMoE: Ope
 
 ### Artifacts
 
-- [Pretraining checkpoints](https://hf.co/allenai/OLMoE-1B-7B-0924)
-- [Pretraining code](https://github.com/allenai/OLMo/tree/Muennighoff/MoE)
-- [Pretraining data](https://huggingface.co/datasets/allenai/OLMoE-mix-0924)
-- Pretraining logs: *coming soon*
-- [SFT/DPO code](https://github.com/allenai/open-instruct/tree/olmoe-sft)
-- [SFT checkpoints](https://huggingface.co/allenai/OLMoE-1B-7B-0924-SFT)
-- [SFT data](https://hf.co/datasets/allenai/tulu-v3.1-mix-preview-4096-OLMoE)
-- SFT logs: `logs/olmoe-sft-logs.txt`
-- [DPO/KTO checkpoints](https://huggingface.co/allenai/OLMoE-1B-7B-0924-Instruct)
-- [Preference (DPO/KTO) data](https://hf.co/datasets/allenai/ultrafeedback_binarized_cleaned)
-- DPO logs: `logs/olmoe-dpo-logs.txt`
+- **Pretraining**
+  - [Checkpoints](https://hf.co/allenai/OLMoE-1B-7B-0924)
+  - [Code](https://github.com/allenai/OLMo/tree/Muennighoff/MoE)
+  - [Data](https://huggingface.co/datasets/allenai/OLMoE-mix-0924)
+  - Logs: *coming soon*
+
+- **SFT (Supervised Fine-Tuning)**
+  - [Checkpoints](https://huggingface.co/allenai/OLMoE-1B-7B-0924-SFT)
+  - [Code](https://github.com/allenai/open-instruct/tree/olmoe-sft)
+  - [Data](https://hf.co/datasets/allenai/tulu-v3.1-mix-preview-4096-OLMoE)
+  - Logs: `logs/olmoe-sft-logs.txt`
+
+- **DPO/KTO (Direct Preference Optimization/Kahneman-Tversky Optimization)**
+  - [Checkpoints](https://huggingface.co/allenai/OLMoE-1B-7B-0924-Instruct)
+  - [Preference Data](https://hf.co/datasets/allenai/ultrafeedback_binarized_cleaned)
+  - Logs: `logs/olmoe-dpo-logs.txt`
 
 ### Inference
 
