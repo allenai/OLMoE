@@ -26,7 +26,7 @@ This repository provides an overview of all resources for the paper ["OLMoE: Ope
   - [Checkpoints](https://hf.co/allenai/OLMoE-1B-7B-0924)
   - [Code](https://github.com/allenai/OLMo/tree/Muennighoff/MoE)
   - [Data](https://huggingface.co/datasets/allenai/OLMoE-mix-0924)
-  - Logs: *coming soon*
+  - [Logs](https://wandb.ai/ai2-llm/olmoe/reports/OLMoE-1B-7B-0924--Vmlldzo4OTcyMjU3)
 
 - **SFT (Supervised Fine-Tuning)**
   - [Checkpoints](https://huggingface.co/allenai/OLMoE-1B-7B-0924-SFT)
