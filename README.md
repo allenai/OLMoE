@@ -37,6 +37,7 @@ This repository provides an overview of all resources for the paper ["OLMoE: Ope
 - **DPO/KTO (Direct Preference Optimization/Kahneman-Tversky Optimization)**
   - [Checkpoints](https://huggingface.co/allenai/OLMoE-1B-7B-0924-Instruct)
   - [Preference Data](https://hf.co/datasets/allenai/ultrafeedback_binarized_cleaned)
+  - [DPO code](https://github.com/allenai/open-instruct/tree/olmoe-sft), [KTO code](https://github.com/Muennighoff/kto/blob/master/kto.py)
   - Logs: `logs/olmoe-dpo-logs.txt`
 
 ### Inference
