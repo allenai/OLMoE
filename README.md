@@ -1,4 +1,9 @@
-## <img src="visuals/logos/OLMoE_logo.png" width="200" />
+<div align="center">
+  <img src="visuals/logos/OLMoE_logo.png" width="200" />
+  <h1>OLMoE: Open Mixture-of-Experts Language Models</h1>
+  <p>Fully open, state-of-the-art Mixture of Expert model with 1.3 billion active and 6.9 billion total parameters. All data, code, and logs released. </p>
+</div>
+<br>
 
 ![](visuals/figures/overview.jpg)
 
