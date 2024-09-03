@@ -22,23 +22,10 @@ This repository provides an overview of all resources for the paper ["OLMoE: Ope
 
 ### Artifacts
 
-- **Pretraining**
-  - [Checkpoints](https://hf.co/allenai/OLMoE-1B-7B-0924)
-  - [Code](https://github.com/allenai/OLMo/tree/Muennighoff/MoE)
-  - [Data](https://huggingface.co/datasets/allenai/OLMoE-mix-0924)
-  - [Logs](https://wandb.ai/ai2-llm/olmoe/reports/OLMoE-1B-7B-0924--Vmlldzo4OTcyMjU3)
-
-- **SFT (Supervised Fine-Tuning)**
-  - [Checkpoints](https://huggingface.co/allenai/OLMoE-1B-7B-0924-SFT)
-  - [Code](https://github.com/allenai/open-instruct/tree/olmoe-sft)
-  - [Data](https://hf.co/datasets/allenai/tulu-v3.1-mix-preview-4096-OLMoE)
-  - Logs: `logs/olmoe-sft-logs.txt`
-
-- **DPO/KTO (Direct Preference Optimization/Kahneman-Tversky Optimization)**
-  - [Checkpoints](https://huggingface.co/allenai/OLMoE-1B-7B-0924-Instruct)
-  - [Preference Data](https://hf.co/datasets/allenai/ultrafeedback_binarized_cleaned)
-  - [DPO code](https://github.com/allenai/open-instruct/tree/olmoe-sft), [KTO code](https://github.com/Muennighoff/kto/blob/master/kto.py)
-  - Logs: `logs/olmoe-dpo-logs.txt`
+- **Paper**: (Soon)
+- **Pretraining** [Checkpoints](https://hf.co/allenai/OLMoE-1B-7B-0924), [Code](https://github.com/allenai/OLMo/tree/Muennighoff/MoE), [Data](https://huggingface.co/datasets/allenai/OLMoE-mix-0924) and [Logs](https://wandb.ai/ai2-llm/olmoe/reports/OLMoE-1B-7B-0924--Vmlldzo4OTcyMjU3).
+- **SFT (Supervised Fine-Tuning)** [Checkpoints](https://huggingface.co/allenai/OLMoE-1B-7B-0924-SFT), [Code](https://github.com/allenai/open-instruct/tree/olmoe-sft), [Data](https://hf.co/datasets/allenai/tulu-v3.1-mix-preview-4096-OLMoE) and [Logs](https://github.com/allenai/OLMoE/blob/main/logs/olmoe-sft-logs.txt).
+- **DPO/KTO (Direct Preference Optimization/Kahneman-Tversky Optimization)**, [Checkpoints](https://huggingface.co/allenai/OLMoE-1B-7B-0924-Instruct), [Preference Data](https://hf.co/datasets/allenai/ultrafeedback_binarized_cleaned), [DPO code](https://github.com/allenai/open-instruct/tree/olmoe-sft), [KTO code](https://github.com/Muennighoff/kto/blob/master/kto.py) and [Logs](https://github.com/allenai/OLMoE/blob/main/logs/olmoe-dpo-logs.txt).
 
 ### Inference
 
