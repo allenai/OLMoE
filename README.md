@@ -22,16 +22,16 @@ This repository provides an overview of all resources for the paper ["OLMoE: Ope
 
 ### Artifacts
 
-- Pretraining checkpoints: https://hf.co/allenai/OLMoE-1B-7B-0924
-- Pretraining code: https://github.com/allenai/OLMo/tree/Muennighoff/MoE
-- Pretraining data: https://hf.co/datasets/allenai/olmoe-mix-0924
-- Pretraining logs: https://hf.co/OLMoE/Dolma-OLMoE
-- SFT/DPO code: https://github.com/allenai/open-instruct/tree/olmoe-sft
-- SFT checkpoints: https://hf.co/OLMoE/OLMoE-1B-7B-0924-SFT
-- SFT data: https://hf.co/datasets/allenai/tulu-v3.1-mix-preview-4096-OLMoE
+- [Pretraining checkpoints](https://hf.co/allenai/OLMoE-1B-7B-0924)
+- [Pretraining code](https://github.com/allenai/OLMo/tree/Muennighoff/MoE)
+- [Pretraining data](https://huggingface.co/datasets/allenai/OLMoE-mix-0924)
+- Pretraining logs: *coming soon*
+- [SFT/DPO code](https://github.com/allenai/open-instruct/tree/olmoe-sft)
+- [SFT checkpoints](https://huggingface.co/allenai/OLMoE-1B-7B-0924-SFT)
+- [SFT data](https://hf.co/datasets/allenai/tulu-v3.1-mix-preview-4096-OLMoE)
 - SFT logs: `logs/olmoe-sft-logs.txt`
-- DPO checkpoints: https://hf.co/OLMoE/OLMoE-1B-7B-0924-Instruct
-- DPO data: https://hf.co/datasets/allenai/ultrafeedback_binarized_cleaned
+- [DPO/KTO checkpoints](https://huggingface.co/allenai/OLMoE-1B-7B-0924-Instruct)
+- [Preference (DPO/KTO) data](https://hf.co/datasets/allenai/ultrafeedback_binarized_cleaned)
 - DPO logs: `logs/olmoe-dpo-logs.txt`
 
 ### Inference
