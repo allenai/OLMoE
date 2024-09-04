@@ -7,7 +7,7 @@
 
 ![](visuals/figures/overview.jpg)
 
-This repository provides an overview of all resources for the paper ["OLMoE: Open Mixture-of-Experts Language Models"](https://arxiv.org/abs/TODO).
+This repository provides an overview of all resources for the paper ["OLMoE: Open Mixture-of-Experts Language Models"](https://arxiv.org/abs/2409.02060).
 
 - [Artifacts](#artifacts)
 - [Inference](#inference)
