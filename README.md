@@ -77,7 +77,7 @@ dolma tokens \
 ### Adaptation
 
 1. Clone this [open-instruct branch](https://github.com/allenai/open-instruct/tree/olmoe-sft) & follow its setup instructions. If you want to use new features in open-instruct clone from the `main` branch instead.
-2. SFT: Run
+2. SFT: After adapting as needed, run:
 ```
 accelerate launch \
 --mixed_precision bf16 \
@@ -88,7 +88,6 @@ accelerate launch \
 open_instruct/finetune.py \
 --model_name_or_path allenai/OLMoE-1B-7B-0924 \
 --tokenizer_name allenai/OLMoE-1B-7B-0924 \
---use_slow_tokenizer \
 --use_flash_attn \
 --max_seq_length 4096 \
 --preprocessing_num_workers 128 \
