@@ -53,3 +53,12 @@ python -u scripts/train.py configs/olmoe17/olmoe17-8x1b-fullshard-swiglu-wrapb-e
 --save_overwrite=True \
 --evaluators=[]
 
+# srun \
+# --distribution=block:block \
+# --kill-on-bad-exit \
+# scripts/run_with_environment.sh \
+# python -u scripts/train.py configs/olmoe17/olmoe-8x1b-newhp-newds-s3.yml \
+# "--save_folder=/data/niklas/llm/checkpoints/${SLURM_JOB_ID}/" \
+# --save_overwrite \
+# --fsdp.sharding_strategy=HYBRID_SHARD \
+# --device_train_microbatch_size=2
