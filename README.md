@@ -29,7 +29,23 @@ This repository provides an overview of all resources for the paper ["OLMoE: Ope
 
 ### Inference
 
-Install the `transformers` & `torch` libraries and run (Transformers must be from source for [this PR](https://github.com/huggingface/transformers/pull/32406) or until the next release):
+OLMoE has been integrated into [vLLM](https://github.com/vllm-project/vllm), [SGLang](https://github.com/sgl-project/sglang), [llama.cpp](https://github.com/ggerganov/llama.cpp), and [transformers](https://github.com/huggingface/transformers). The transformers implementation is slow, thus we recommend using the others, e.g. vLLM, where possible. Below are examples for using it with vLLM and transformers.
+
+#### vLLM
+
+Install the `vllm` library and run:
+
+```python
+from vllm import LLM, SamplingParams
+model = LLM("allenai/OLMoE-1B-7B-0924")
+out = model.generate("Bitcoin is", SamplingParams(temperature=0.0))
+print("Bitcoin is" + out[0].outputs[0].text)
+# Bitcoin is a digital currency that is not controlled by any central authority. It is a peer
+```
+
+#### transformers
+
+Install the `transformers` & `torch` libraries and run:
 
 ```python
 from transformers import OlmoeForCausalLM, AutoTokenizer
@@ -45,7 +61,7 @@ inputs = tokenizer("Bitcoin is", return_tensors="pt")
 inputs = {k: v.to(DEVICE) for k, v in inputs.items()}
 out = model.generate(**inputs, max_length=64)
 print(tokenizer.decode(out[0]))
-# > # Bitcoin is a digital currency that is created and held electronically. No one controls it. Bitcoins aren’t printed, like dollars or euros – they’re produced by people and businesses running computers all around the world, using software that solves mathematical
+# Bitcoin is a digital currency that is created and held electronically. No one controls it. Bitcoins aren’t printed, like dollars or euros – they’re produced by people and businesses running computers all around the world, using software that solves mathematical
 ```
 
 You can list all revisions/branches by installing `huggingface-hub` & running:
