@@ -48,7 +48,7 @@ print("Bitcoin is" + out[0].outputs[0].text)
 Install `llama.cpp`, download a quantized GGUF of the final checkpoint (e.g. [`olmoe-1b-7b-0924-q4_0.gguf`](https://hf.co/allenai/OLMoE-1B-7B-0924-GGUF/resolve/main/olmoe-1b-7b-0924-q4_0.gguf)) and run in a shell:
 
 ```bash
-./llama-cli -m olmoe-1b-7b-0924-q4_0.gguf -p "Bitcoin is" -n 128
+llama-cli -m olmoe-1b-7b-0924-q4_0.gguf -p "Bitcoin is" -n 128
 ```
 
 #### transformers
