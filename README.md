@@ -24,8 +24,8 @@ This repository provides an overview of all resources for the paper ["OLMoE: Ope
 
 - **Paper**: https://arxiv.org/abs/2409.02060
 - **Pretraining** [Checkpoints](https://hf.co/allenai/OLMoE-1B-7B-0924), [Final Checkpoint GGUF](https://hf.co/allenai/OLMoE-1B-7B-0924-GGUF), [Code](https://github.com/allenai/OLMo/tree/Muennighoff/MoE), [Data](https://huggingface.co/datasets/allenai/OLMoE-mix-0924) and [Logs](https://wandb.ai/ai2-llm/olmoe/reports/OLMoE-1B-7B-0924--Vmlldzo4OTcyMjU3).
-- **SFT (Supervised Fine-Tuning)** [Checkpoints](https://huggingface.co/allenai/OLMoE-1B-7B-0924-SFT), [Code](https://github.com/allenai/open-instruct/tree/olmoe-sft), [Data](https://hf.co/datasets/allenai/tulu-v3.1-mix-preview-4096-OLMoE) and [Logs](https://github.com/allenai/OLMoE/blob/main/logs/olmoe-sft-logs.txt).
-- **DPO/KTO (Direct Preference Optimization/Kahneman-Tversky Optimization)**, [Checkpoints](https://huggingface.co/allenai/OLMoE-1B-7B-0924-Instruct), [Final Checkpoint GGUF](https://hf.co/allenai/OLMoE-1B-7B-0924-Instruct-GGUF), [Preference Data](https://hf.co/datasets/allenai/ultrafeedback_binarized_cleaned), [DPO code](https://github.com/allenai/open-instruct/tree/olmoe-sft), [KTO code](https://github.com/Muennighoff/kto/blob/master/kto.py) and [Logs](https://github.com/allenai/OLMoE/blob/main/logs/olmoe-dpo-logs.txt).
+- **SFT (Supervised Fine-Tuning)** [Checkpoints](https://huggingface.co/allenai/OLMoE-1B-7B-0924-SFT), [Code](https://github.com/allenai/open-instruct/), [Data](https://hf.co/datasets/allenai/tulu-v3.1-mix-preview-4096-OLMoE) and [Logs](https://github.com/allenai/OLMoE/blob/main/logs/olmoe-sft-logs.txt).
+- **DPO/KTO (Direct Preference Optimization/Kahneman-Tversky Optimization)**, [Checkpoints](https://huggingface.co/allenai/OLMoE-1B-7B-0924-Instruct), [Final Checkpoint GGUF](https://hf.co/allenai/OLMoE-1B-7B-0924-Instruct-GGUF), [Preference Data](https://hf.co/datasets/allenai/ultrafeedback_binarized_cleaned), [DPO code](https://github.com/allenai/open-instruct/), [KTO code](https://github.com/Muennighoff/kto/blob/master/kto.py) and [Logs](https://github.com/allenai/OLMoE/blob/main/logs/olmoe-dpo-logs.txt).
 
 ### Inference
 
@@ -108,7 +108,7 @@ For most of our experiments on other design choices, you can simply set them in 
 
 ### Adaptation
 
-1. Clone this [open-instruct branch](https://github.com/allenai/open-instruct/tree/olmoe-sft) & follow its setup instructions. If you want to use new features in open-instruct clone from the `main` branch instead.
+1. Clone Open Instruct [here](https://github.com/allenai/open-instruct/) & follow its setup instructions. If you run into any problems, try upgrading your transformers version with `pip install --upgrade transformers` first.
 2. SFT: After adapting as needed, run:
 ```
 accelerate launch \
@@ -187,7 +187,7 @@ DCLM Evals: Run `scripts/run_dclm_evals*` and refer to instructions from https:/
 
 #### After adaptation
 
-- Setup https://github.com/allenai/open-instruct/tree/olmoe-sft
+- Setup https://github.com/allenai/open-instruct/
 - Run `sbatch scripts/adapteval.sh` after changing it as necessary / extract the commands from the script and run them one by one.
 
 ### Visuals
