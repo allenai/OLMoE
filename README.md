@@ -97,7 +97,8 @@ dolma tokens \
 --processes ${NUMBER_OF_CPU_CORES_TO_USE}
 ```
 6. Submit your job. We used `bash scripts/olmoe-gantry.sh` which invokes https://github.com/allenai/OLMo/blob/Muennighoff/MoE/scripts/train.py and uses [beaker gantry](https://github.com/allenai/beaker-gantry) but you will likely need to change the script to work with your setup.
-7. To convert you pretraining checkpoint to Hugging Face transformers after training, you can use the script & instructions [here](https://github.com/huggingface/transformers/blob/8f8af0fb38baa851f3fd69f564fbf91b5af78332/src/transformers/models/olmoe/convert_olmoe_weights_to_hf.py#L14).
+7. To run annealing after the main pretraining we use [this config](https://github.com/allenai/OLMoE/blob/main/configs/ablations/olmoe-8x1b-newhp-newds-final-anneal.yml) - the only changes from the pretraining config are the `optimizer` and `scheduler` fields as well as `max_duration` and `stop_at`.
+8. To convert you pretraining checkpoint to Hugging Face transformers after training, you can use the script & instructions [here](https://github.com/huggingface/transformers/blob/8f8af0fb38baa851f3fd69f564fbf91b5af78332/src/transformers/models/olmoe/convert_olmoe_weights_to_hf.py#L14).
 
 #### Other design choices
 
