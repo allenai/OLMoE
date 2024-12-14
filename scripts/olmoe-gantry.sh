@@ -1,29 +1,28 @@
 #!/usr/bin/env bash
 set -ex
 
-CONFIG_PATH=configs/olmoe17/olmoe-8x1b-newhp-newds-final.yml
-ARGS='--run_name=olmoe-8x1b-newhp-newds-final --save-overwrite --fsdp.sharding_strategy=FULL_SHARD --device_train_microbatch_size=4 --canceled_check_interval=9999999'
+CONFIG_PATH=configs/ablations/dolmino-anneal/olmoe-8x1b-newhp-newds-dolmino-seed-42.yml
+ARGS='--save-overwrite --fsdp.sharding_strategy=FULL_SHARD --device_train_microbatch_size=4 --canceled_check_interval=9999999'
 
 #NUM_NODES=1
-#NUM_NODES=8
+NUM_NODES=4
 #NUM_NODES=16
-NUM_NODES=32
+# NUM_NODES=32
 BEAKER_REPLICA_RANK=0
 
 gantry run \
   --weka oe-training-default:/weka/oe-training-default \
   --allow-dirty \
   --preemptible \
-  --priority urgent \
+  --priority high \
   --workspace ai2/olmoe \
-  --task-name olmoe \
-  --description olmoe \
+  --description "${CONFIG_PATH}" \
   --beaker-image shanea/olmo-torch2.2-gantry \
   --budget ai2/oe-training \
   --cluster ai2/jupiter-cirrascale-2 \
   --gpus 8 \
   --replicas "${NUM_NODES}" \
-  --env-secret WANDB_API_KEY=WANDB_API_KEY \
+  --env-secret WANDB_API_KEY=lucas_WANDB_API_KEY \
   --env-secret AWS_ACCESS_KEY_ID=AWS_ACCESS_KEY_ID \
   --env-secret AWS_SECRET_ACCESS_KEY=AWS_SECRET_ACCESS_KEY \
   --env-secret R2_ENDPOINT_URL=R2_ENDPOINT_URL \
